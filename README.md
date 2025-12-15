@@ -17,8 +17,6 @@
 
 安装依赖：
 ```powershell
-pip install -r requirements.txt
-# 如果没有 requirements.txt，可直接：
 pip install requests selenium webdriver-manager
 ```
 
@@ -39,9 +37,10 @@ pip install requests selenium webdriver-manager
 可选：双击 `reconnect.bat` 直接运行。
 
 ## EdgeDriver 说明
-- 脚本默认使用本地 `./drivers/msedgedriver.exe`（如果存在）。
+使用edge浏览器来自动化打开网页（Chrome浏览器也是可以的，需要稍微改一下脚本中webdriver的引用库即可。这里脚本主要使用edge浏览器）
+- 脚本默认使用本地 `./drivers/msedgedriver.exe`。
 - 如果不存在，将由 `webdriver-manager` 自动下载匹配版本。
-- 如需固定驱动，放置在 `drivers/` 下并确保版本与本机 Edge 匹配。
+- 如需固定驱动，放置在 `drivers/` 下并确保版本与本机 Edge 匹配。可见[安装 selenium 及配置 edge 浏览器驱动_edge浏览器驱动-CSDN博客](https://blog.csdn.net/m0_61552056/article/details/134956649)
 
 ## 调试
 - 登录页解析失败时，检查生成的 `fallback_page_source.html`。
@@ -49,3 +48,6 @@ pip install requests selenium webdriver-manager
   - 用户名输入框 ID：`username`
   - 密码输入框 ID：`pwd`
   - 登录按钮 ID：`loginLink`
+ 
+## 定时任务
+直接设置一个定时任务去定时调用这个脚本即可。Windows参考：https://zhuanlan.zhihu.com/p/430602325。linux好像也有定时任务的设置。
