@@ -12,7 +12,7 @@
 - `drivers/`：Edge WebDriver 及许可证文件。
 
 ## 环境要求
-- Windows + Edge 浏览器
+- Windows + Edge 浏览器（Linux 使用 selenium 参考https://blog.csdn.net/FujLiny/article/details/115387701）
 - Python 3.8+
 - 依赖：`requests`, `selenium`, `webdriver-manager`
 
