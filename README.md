@@ -51,5 +51,5 @@ pip install requests selenium webdriver-manager
   - 登录按钮 ID：`loginLink`
  
 ## 定时任务
-直接设置一个定时任务去定时调用这个reconnect.bat脚本即可。Windows参考：https://zhuanlan.zhihu.com/p/430602325。
+直接设置一个定时任务去定时调用这个reconnect.bat脚本即可。Windows参考：https://zhuanlan.zhihu.com/p/430602325 。
 linux好像也有定时任务的设置。
