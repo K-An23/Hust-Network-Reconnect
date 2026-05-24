@@ -37,7 +37,7 @@ pip install -r requirements.txt
 复制环境变量模板并编辑：
 
 ```bash
-cp .env.example .env
+copy .env.example .env
 ```
 
 根据实际情况填写以下内容：
