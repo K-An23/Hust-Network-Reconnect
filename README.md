@@ -1,64 +1,79 @@
-# 校园网自动重连工具
+# Campus Network Auto-Reconnect
 
-检测校园网连通性，断网时自动登录认证页面。
+一款用于校园网环境的自动网络重连工具。当检测到网络连接中断时，自动完成 Portal 认证页面的登录流程，无需人工干预。
 
-## 功能
+## Overview
 
-- 定期检测指定 URL 的可达性
-- 检测到网络断开时，自动打开校园网认证门户
-- 填写账号密码并提交登录
-- 支持 Chrome 无头模式，不干扰前台工作
+本工具持续监测目标 URL 的可达性以判断网络连通状态。一旦检测到网络不可达，即自动启动浏览器驱动，导航至校园网认证门户，填写凭据并提交登录，从而实现断线自动重连。
 
-## 前置条件
+## Features
 
-1. **Python 3.10+**
-2. **Chrome 浏览器**（已安装）
-3. **ChromeDriver** — 版本需与本地 Chrome 主版本号一致
-   - 从 [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/) 下载
-   - 解压后将 `chromedriver.exe` 放入项目下的 `chromedriver-win64/` 目录
+- **连通性检测**：通过 HTTP 请求定期探测指定目标地址，快速判断网络状态
+- **自动认证**：断网时自动打开校园网 Portal 认证页面并完成登录
+- **无头运行**：采用 Chrome Headless 模式，运行时无界面干扰
+- **配置外置**：敏感信息（账号、密码、认证页地址）通过环境变量或 `.env` 文件管理，避免硬编码
 
-## 安装
+## Prerequisites
+
+- **Python** >= 3.10
+- **Google Chrome** 浏览器（已安装）
+- **ChromeDriver** — 版本须与本地 Chrome 主版本号一致
+
+  > 从 [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/) 下载对应版本的 ChromeDriver，将 `chromedriver.exe` 置于项目根目录下的 `chromedriver-win64/` 文件夹中。
+
+## Getting Started
+
+### 1. 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 配置
+### 2. 配置凭据
 
-1. 复制环境变量模板：
-   ```bash
-   cp .env.example .env
-   ```
-2. 编辑 `.env`，填入校园网账号、密码及认证页面地址。
+复制环境变量模板并编辑：
 
-## 使用
+```bash
+cp .env.example .env
+```
 
-### 命令行运行
+根据实际情况填写以下内容：
+
+| 变量 | 说明 |
+|---|---|
+| `PORTAL_USERNAME` | 校园网账号 |
+| `PORTAL_PASSWORD` | 校园网密码 |
+| `TARGET_URL` | 连通性检测目标（默认 `https://www.baidu.com`） |
+| `FALLBACK_URL` | 认证页面入口地址 |
+
+### 3. 运行
 
 ```bash
 python reconnect.py
 ```
 
-### 通过批处理脚本
+程序启动后自动检测网络连通性，必要时执行认证流程。
 
-双击 `reconnect.bat` 即可运行。
+> **提示**：可通过 Windows 任务计划程序配置定时执行，实现开机自启或周期性重连。
 
-> **提示**：可将 `reconnect.bat` 添加到 Windows 任务计划程序，实现开机自动重连。
-
-## 项目结构
+## Project Structure
 
 ```
 network_reconnect/
-├── chromedriver-win64/   # ChromeDriver（已 gitignore，需自行下载）
-├── .env                  # 用户配置（已 gitignore）
-├── .env.example          # 配置模板
+├── chromedriver-win64/   # ChromeDriver 运行时（已配置 gitignore，需自行下载）
+├── .env                  # 用户配置文件（已配置 gitignore，不纳入版本控制）
+├── .env.example          # 环境变量模板
 ├── .gitignore
-├── reconnect.py          # 主程序
-├── reconnect.bat         # 快捷启动脚本
-├── requirements.txt      # Python 依赖
+├── LICENSE
+├── reconnect.py          # 主程序入口
+├── requirements.txt      # Python 依赖清单
 └── README.md
 ```
 
-## 免责声明
+## License
 
-本工具仅供个人学习与便利使用。使用前请确认符合所在校园网的使用条款。
+本项目基于 MIT 许可证开源。详见 [LICENSE](./LICENSE) 文件。
+
+## Disclaimer
+
+本工具仅供学习与便利目的使用。使用者应确保其使用方式符合所在校园网的相关规定与服务条款。作者不对因使用本工具产生的任何后果承担责任。
