@@ -55,21 +55,66 @@ cp .env.example .env
 python reconnect.py
 ```
 
-程序启动后自动检测网络连通性，必要时执行认证流程。
+程序启动后自动检测网络连通性，必要时执行认证流程。自己可以断网与不断网来试一下。
 
-> **提示**：可通过 Windows 任务计划程序配置定时执行，实现开机自启或周期性重连。
+## Scheduled Execution（计划任务配置）
+
+为避免网络断开后长时间未重连，推荐通过 Windows 任务计划程序设置定时执行（例如每 5 分钟运行一次）。
+
+### 步骤一：准备工作
+
+确保以下两个文件位于项目目录中（它们已被 `.gitignore` 排除，需手动创建）：
+
+- **`reconnect.bat`** — 批处理启动脚本，内容如下：
+  ```batch
+    @echo off
+    <!-- 改为你的项目目录位置，下述是示例 -->
+    cd /d "D:\Workspace\self_tools\network_reconnect"
+    <!-- 改为你的 python 运行环境，下述是示例 -->
+    "D:/Anaconda/envs/syn/python.exe" reconnect.py
+  ```
+- **`reconnect_hidden.vbs`** — 隐藏命令行窗口的 VBS 脚本，内容如下：
+  ```vb
+  CreateObject("Wscript.Shell").Run "%~dp0reconnect.bat", 0, False
+  ```
+
+> **注意**：请将上述 `reconnect_hidden.vbs` 中的路径替换为你的实际项目路径。
+
+### 步骤二：创建计划任务
+
+1. 按 `Win + R`，输入 `taskschd.msc` 并回车，打开**任务计划程序**。
+2. 点击右侧 **"创建基本任务…"**。
+3. **名称**：输入 `HustNetworkReconnect`（或任意名称）。
+4. **触发器**：选择 **"每天"** → 设置 **"每 5 分钟重复一次，持续 24 小时"**。
+   - 若向导不支持此设置，可在创建完成后右键任务 → **属性** → **触发器** → **编辑** 中调整。
+5. **操作**：选择 **"启动程序"** → **程序或脚本** 中填写：
+   ```
+   C:\Windows\System32\wscript.exe
+   ```
+   **添加参数** 中填写（请替换为你的实际路径）：
+   ```
+   D:\Path\To\network_reconnect\reconnect_hidden.vbs
+   ```
+6. 完成创建。
+
+### 原理说明
+
+- `reconnect_hidden.vbs` 调用 `Wscript.Shell.Run` 时使用了参数 `0`，使被调用的 `reconnect.bat` 在**后台静默运行**，不弹出命令行窗口。
+- 任务计划程序定期触发 VBS 脚本 → VBS 静默启动 BAT → BAT 调用 Python 执行检测与重连逻辑。
 
 ## Project Structure
 
 ```
 network_reconnect/
-├── chromedriver-win64/   # ChromeDriver 运行时（已配置 gitignore，需自行下载）
-├── .env                  # 用户配置文件（已配置 gitignore，不纳入版本控制）
-├── .env.example          # 环境变量模板
+├── chromedriver-win64/    # ChromeDriver 运行时（已配置 gitignore，需自行下载）
+├── .env                   # 用户配置文件（已配置 gitignore，不纳入版本控制）
+├── .env.example           # 环境变量模板
 ├── .gitignore
 ├── LICENSE
-├── reconnect.py          # 主程序入口
-├── requirements.txt      # Python 依赖清单
+├── reconnect.py           # 主程序入口
+├── reconnect.bat          # 批处理启动脚本（本地创建，已配置 gitignore）
+├── reconnect_hidden.vbs   # 隐藏窗口启动脚本（本地创建，已配置 gitignore）
+├── requirements.txt       # Python 依赖清单
 └── README.md
 ```
 
