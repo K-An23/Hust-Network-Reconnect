@@ -75,7 +75,8 @@ python reconnect.py
   ```
 - **`reconnect_hidden.vbs`** — 隐藏命令行窗口的 VBS 脚本，内容如下：
   ```vb
-  CreateObject("Wscript.Shell").Run "%~dp0reconnect.bat", 0, False
+  <!-- 将后面的目录改为你的项目目录位置，下述是示例 -->
+  CreateObject("Wscript.Shell").Run "D:\Workspace\self_tools\network_reconnect\reconnect.bat", 0, False
   ```
 
 > **注意**：请将上述 `reconnect_hidden.vbs` 中的路径替换为你的实际项目路径。
