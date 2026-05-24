@@ -1,6 +1,8 @@
-# Campus Network Auto-Reconnect
+# （华科）校园网自动重连脚本（Windows，2026.5.24更新）
 
-一款用于校园网环境的自动网络重连工具。当检测到网络连接中断时，自动完成 Portal 认证页面的登录流程，无需人工干预。
+一款用于校园网环境的自动网络重连工具。当检测到网络连接中断时，自动完成 Portal 认证页面的登录流程，无需人工干预。本项目仅适用于Windows，Linux的自动重连可参见 https://github.com/K-An23/Hust-Network-Reconnect-Linux-
+
+建议还是使用Chrome，然后将该浏览器的自动更新全部停掉（[如何彻底禁用 Chrome 自动更新_chrome关闭自动更新-CSDN博客](https://blog.csdn.net/olixu/article/details/149290012)）。这样可以避免浏览器的自动更新使得本地驱动与浏览器的版本不适配导致的自动重连失败。
 
 ## Overview
 
@@ -19,7 +21,8 @@
 - **Google Chrome** 浏览器（已安装）
 - **ChromeDriver** — 版本须与本地 Chrome 主版本号一致
 
-  > 从 [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/) 下载对应版本的 ChromeDriver，将 `chromedriver.exe` 置于项目根目录下的 `chromedriver-win64/` 文件夹中。
+  > 从 [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/) 下载对应版本的 ChromeDriver，将 `chromedriver.exe` 置于项目根目录下的 `chromedriver-win64/` 文件夹中。如果找不到适合的版本，那就直接打开如下链接：https://storage.googleapis.com/chrome-for-testing-public/{Chrome版本号}/win64/chromedriver-win64.zip 就可以下载了
+  >
 
 ## Getting Started
 
@@ -39,12 +42,12 @@ cp .env.example .env
 
 根据实际情况填写以下内容：
 
-| 变量 | 说明 |
-|---|---|
-| `PORTAL_USERNAME` | 校园网账号 |
-| `PORTAL_PASSWORD` | 校园网密码 |
-| `TARGET_URL` | 连通性检测目标（默认 `https://www.baidu.com`） |
-| `FALLBACK_URL` | 认证页面入口地址 |
+| 变量                | 说明                                             |
+| ------------------- | ------------------------------------------------ |
+| `PORTAL_USERNAME` | 校园网账号                                       |
+| `PORTAL_PASSWORD` | 校园网密码                                       |
+| `TARGET_URL`      | 连通性检测目标（默认 `https://www.baidu.com`） |
+| `FALLBACK_URL`    | 认证页面入口地址                                 |
 
 ### 3. 运行
 
